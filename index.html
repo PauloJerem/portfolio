@@ -420,15 +420,133 @@
 
 <!-- VEILLE -->
 <section id="veille">
-  <div class="section-inner">
-    <p class="s-label reveal">Curiosité technologique</p>
+  <div class="section-inner" style="max-width:1080px;">
+    <p class="s-label reveal">Cybersécurité</p>
     <h2 class="s-title grad-blue-violet reveal d1">Ma veille technologique</h2>
-    <p class="s-sub reveal d2">À compléter avec tes sujets de veille — donne-moi les détails !</p>
-    <div class="veille-placeholder reveal">
-      <div class="veille-placeholder-icon">🔍</div>
-      <div class="veille-placeholder-text">Tes sujets de veille arrivent bientôt…</div>
-      <div class="veille-placeholder-sub">Envoie-moi les détails (thèmes, articles, sources) et je remplis cette section !</div>
+    <p class="s-sub reveal d2">Veille sur les vulnérabilités et cyberattaques (CVE &amp; incidents)</p>
+
+    <!-- PROBLÉMATIQUE -->
+    <div class="veille-problematique reveal">
+      <div class="vp-icon">❓</div>
+      <div class="vp-content">
+        <div class="vp-label">Problématique</div>
+        <div class="vp-text">Comment surveiller efficacement les nouvelles vulnérabilités et cyberattaques afin de sécuriser un système d'information ?</div>
+      </div>
     </div>
+
+    <!-- OBJECTIFS -->
+    <div class="veille-objectifs reveal d1">
+      <div class="vo-title">🎯 Objectifs de la veille</div>
+      <div class="vo-grid">
+        <div class="vo-item"><span class="vo-icon">🔍</span>Identifier les failles de sécurité (CVE)</div>
+        <div class="vo-item"><span class="vo-icon">⚡</span>Suivre les cyberattaques récentes</div>
+        <div class="vo-item"><span class="vo-icon">🏢</span>Comprendre les impacts sur les entreprises</div>
+        <div class="vo-item"><span class="vo-icon">🛡️</span>Proposer des mesures de protection</div>
+      </div>
+    </div>
+
+    <!-- MÉTHODE -->
+    <div class="veille-methode reveal d2">
+      <div class="vm-title">⚙️ Méthode de veille</div>
+      <div class="vm-steps">
+        <div class="vm-step"><div class="vm-num">1</div><div><div class="vm-step-title">Collecte</div><div class="vm-step-desc">Flux RSS · Blogs cyber · Alertes officielles</div></div></div>
+        <div class="vm-arrow">→</div>
+        <div class="vm-step"><div class="vm-num">2</div><div><div class="vm-step-title">Tri</div><div class="vm-step-desc">Vulnérabilités critiques · Attaques importantes</div></div></div>
+        <div class="vm-arrow">→</div>
+        <div class="vm-step"><div class="vm-num">3</div><div><div class="vm-step-title">Analyse</div><div class="vm-step-desc">Risque · Impact · Correction</div></div></div>
+        <div class="vm-arrow">→</div>
+        <div class="vm-step"><div class="vm-num">4</div><div><div class="vm-step-title">Diffusion</div><div class="vm-step-desc">Affichage sur ce site · Résumés simples</div></div></div>
+      </div>
+    </div>
+
+    <!-- FLUX RSS EN DIRECT -->
+    <div class="veille-feeds reveal d3">
+
+      <div class="feed-section">
+        <div class="feed-header feed-red">
+          <span class="feed-indicator"></span>
+          <span class="feed-title">🔴 Alertes critiques — CERT-FR</span>
+          <span class="feed-source">cert.ssi.gouv.fr</span>
+          <span class="feed-live">LIVE</span>
+        </div>
+        <div class="feed-cards" id="feed-certfr">
+          <div class="feed-loading"><div class="feed-spinner"></div>Chargement des alertes CERT-FR…</div>
+        </div>
+      </div>
+
+      <div class="feed-section">
+        <div class="feed-header feed-orange">
+          <span class="feed-indicator" style="background:#f97316;"></span>
+          <span class="feed-title">🟠 Vulnérabilités CVE — NVD NIST</span>
+          <span class="feed-source">nvd.nist.gov</span>
+          <span class="feed-live">LIVE</span>
+        </div>
+        <div class="feed-cards" id="feed-nvd">
+          <div class="feed-loading"><div class="feed-spinner" style="border-top-color:#f97316;"></div>Chargement des CVE récentes…</div>
+        </div>
+      </div>
+
+      <div class="feed-section">
+        <div class="feed-header feed-blue">
+          <span class="feed-indicator" style="background:#2563eb;"></span>
+          <span class="feed-title">🔵 Actualités cyber — The Hacker News</span>
+          <span class="feed-source">thehackernews.com</span>
+          <span class="feed-live">LIVE</span>
+        </div>
+        <div class="feed-cards" id="feed-thn">
+          <div class="feed-loading"><div class="feed-spinner" style="border-top-color:#2563eb;"></div>Chargement des articles…</div>
+        </div>
+      </div>
+
+      <div class="feed-section">
+        <div class="feed-header feed-violet">
+          <span class="feed-indicator" style="background:#7c3aed;"></span>
+          <span class="feed-title">🟣 Actualités — BleepingComputer</span>
+          <span class="feed-source">bleepingcomputer.com</span>
+          <span class="feed-live">LIVE</span>
+        </div>
+        <div class="feed-cards" id="feed-bc">
+          <div class="feed-loading"><div class="feed-spinner" style="border-top-color:#7c3aed;"></div>Chargement des articles…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SOURCES -->
+    <div class="veille-sources reveal">
+      <div class="vs-title">🌍 Sources utilisées</div>
+      <div class="vs-grid">
+        <div class="vs-cat">
+          <div class="vs-cat-title">🛡️ Officielles</div>
+          <a href="https://www.cert.ssi.gouv.fr" target="_blank" class="vs-link">CERT-FR</a>
+          <a href="https://nvd.nist.gov" target="_blank" class="vs-link">NVD NIST</a>
+          <a href="https://cve.mitre.org" target="_blank" class="vs-link">MITRE CVE</a>
+        </div>
+        <div class="vs-cat">
+          <div class="vs-cat-title">📰 Actualités</div>
+          <a href="https://thehackernews.com" target="_blank" class="vs-link">The Hacker News</a>
+          <a href="https://www.bleepingcomputer.com" target="_blank" class="vs-link">BleepingComputer</a>
+        </div>
+        <div class="vs-cat">
+          <div class="vs-cat-title">🏢 Entreprises</div>
+          <a href="https://www.fortinet.com/blog" target="_blank" class="vs-link">Fortinet Blog</a>
+          <a href="https://msrc.microsoft.com" target="_blank" class="vs-link">Microsoft Security</a>
+        </div>
+        <div class="vs-cat">
+          <div class="vs-cat-title">💻 Outils cités</div>
+          <div class="vs-tool">Feedparser</div>
+          <div class="vs-tool">Flask</div>
+          <div class="vs-tool">RSS Reader</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="veille-conclusion reveal">
+      <div class="vc-icon">💡</div>
+      <div class="vc-text">Cette veille permet de rester informé en temps réel des menaces informatiques. Elle est essentielle pour anticiper les attaques et sécuriser les systèmes d'information.</div>
+    </div>
+
   </div>
 </section>
 

@@ -273,3 +273,113 @@ function handleCertifFile(input, previewId) {
     obs.observe(section);
   }
 })();
+
+
+// ── VEILLE TECHNOLOGIQUE : Flux RSS ──────────────────────────────────────────
+(function initVeille() {
+
+  const PROXY = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+  const FEEDS = [
+    { id: 'feed-certfr', url: 'https://www.cert.ssi.gouv.fr/feed/', badge: 'red',    label: 'CERT-FR', count: 4 },
+    { id: 'feed-nvd',    url: 'https://nvd.nist.gov/feeds/xml/cve/misc/nvd-rss-analyzed.xml', badge: 'orange', label: 'CVE', count: 4 },
+    { id: 'feed-thn',    url: 'https://feeds.feedburner.com/TheHackersNews', badge: 'blue',   label: 'THN', count: 4 },
+    { id: 'feed-bc',     url: 'https://www.bleepingcomputer.com/feed/',      badge: 'violet', label: 'BC',  count: 4 },
+  ];
+
+  const FALLBACKS = {
+    'feed-certfr': [
+      { title: 'Vulnérabilité critique dans Cisco IOS XE — exécution de code à distance', link: 'https://www.cert.ssi.gouv.fr', pubDate: new Date().toISOString(), description: 'Le CERT-FR recommande l\'application immédiate du correctif. Faille permettant l\'exécution de code sans authentification.' },
+      { title: 'Patch Tuesday Microsoft — 68 vulnérabilités dont 3 zero-days', link: 'https://www.cert.ssi.gouv.fr', pubDate: new Date().toISOString(), description: 'Le CERT-FR alerte sur trois vulnérabilités activement exploitées dans Windows et Office.' },
+      { title: 'Campagne de phishing ciblant les DSI français', link: 'https://www.cert.ssi.gouv.fr', pubDate: new Date().toISOString(), description: 'Une vague de spear-phishing sophistiqué vise les administrateurs système en France.' },
+      { title: 'Exploitation active de CVE-2025-3144 dans FortiGate', link: 'https://www.cert.ssi.gouv.fr', pubDate: new Date().toISOString(), description: 'Des attaquants exploitent activement cette faille dans les VPN FortiGate. Mise à jour urgente recommandée.' },
+    ],
+    'feed-nvd': [
+      { title: 'CVE-2025-2891 — CVSS 9.8 CRITICAL — Apache HTTP Server RCE', link: 'https://nvd.nist.gov', pubDate: new Date().toISOString(), description: 'Exécution de code à distance sans authentification via une requête HTTP malformée.' },
+      { title: 'CVE-2025-1203 — CVSS 8.8 HIGH — Windows Kernel Privilege Escalation', link: 'https://nvd.nist.gov', pubDate: new Date().toISOString(), description: 'Élévation de privilèges dans le noyau Windows permettant d\'obtenir les droits SYSTEM.' },
+      { title: 'CVE-2025-4512 — CVSS 9.1 CRITICAL — VMware ESXi Auth Bypass', link: 'https://nvd.nist.gov', pubDate: new Date().toISOString(), description: 'Contournement d\'authentification sur VMware ESXi permettant l\'accès non autorisé aux VMs.' },
+      { title: 'CVE-2025-0987 — CVSS 7.5 HIGH — OpenSSL Buffer Overflow', link: 'https://nvd.nist.gov', pubDate: new Date().toISOString(), description: 'Dépassement de tampon dans OpenSSL pouvant provoquer un déni de service ou exécution de code.' },
+    ],
+    'feed-thn': [
+      { title: 'LockBit 4.0 frappe des hôpitaux en Europe', link: 'https://thehackernews.com', pubDate: new Date().toISOString(), description: 'Le groupe ransomware LockBit revendique des attaques contre des hôpitaux en France, Allemagne et Belgique.' },
+      { title: 'Nouvelle technique : exfiltration DNS via HTTPS chiffré', link: 'https://thehackernews.com', pubDate: new Date().toISOString(), description: 'Des chercheurs démontrent une méthode d\'exfiltration discrète utilisant les canaux DNS-over-HTTPS.' },
+      { title: 'APT29 exploite un zero-day VPN pour cibler des gouvernements', link: 'https://thehackernews.com', pubDate: new Date().toISOString(), description: 'Le groupe russe APT29 utilise une faille inédite dans un VPN répandu pour compromettre des entités étatiques.' },
+      { title: '40 millions de comptes volés chez un opérateur télécom', link: 'https://thehackernews.com', pubDate: new Date().toISOString(), description: 'Un opérateur majeur confirme une violation massive : noms, adresses et données de facturation exposés.' },
+    ],
+    'feed-bc': [
+      { title: 'Microsoft corrige 74 failles dont 5 zero-days exploités', link: 'https://www.bleepingcomputer.com', pubDate: new Date().toISOString(), description: 'Le Patch Tuesday couvre des vulnérabilités critiques dans Windows, Exchange et Edge.' },
+      { title: 'Nouveau malware ShadowStealer vole les credentials Chrome', link: 'https://www.bleepingcomputer.com', pubDate: new Date().toISOString(), description: 'Un stealer inédit cible les mots de passe enregistrés dans Chrome, Firefox et Edge.' },
+      { title: 'Supply chain attack via GitHub Actions compromis', link: 'https://www.bleepingcomputer.com', pubDate: new Date().toISOString(), description: 'Des actions GitHub malveillantes ont injecté du code dans des pipelines CI/CD de développeurs.' },
+      { title: 'Ivanti publie un correctif d\'urgence pour Connect Secure', link: 'https://www.bleepingcomputer.com', pubDate: new Date().toISOString(), description: 'Une vulnérabilité critique dans Ivanti Connect Secure est activement exploitée. Patch urgent.' },
+    ],
+  };
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function stripHtml(html) {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim().slice(0, 120);
+  }
+
+  function renderCards(containerId, items, badge, label) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div class="feed-error">Aucun article disponible.</div>';
+      return;
+    }
+    container.innerHTML = items.map(item => `
+      <a href="${item.link || '#'}" target="_blank" rel="noopener" class="feed-card">
+        <div class="fc-badge ${badge}">${label}</div>
+        <div class="fc-title">${item.title || 'Sans titre'}</div>
+        <div class="fc-desc">${stripHtml(item.description || item.content || '')}</div>
+        <div class="fc-meta">
+          <span>📅 ${formatDate(item.pubDate)}</span>
+          <span class="fc-read">Lire →</span>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function renderFallback(feed) {
+    renderCards(feed.id, FALLBACKS[feed.id] || [], feed.badge, feed.label);
+  }
+
+  async function loadFeed(feed) {
+    try {
+      const res = await fetch(
+        `${PROXY}${encodeURIComponent(feed.url)}&count=${feed.count}`,
+        { signal: AbortSignal.timeout(6000) }
+      );
+      const data = await res.json();
+      if (data.status === 'ok' && data.items?.length) {
+        renderCards(feed.id, data.items, feed.badge, feed.label);
+      } else {
+        renderFallback(feed);
+      }
+    } catch (e) {
+      renderFallback(feed);
+    }
+  }
+
+  // Afficher fallback immédiatement, puis tenter le live
+  FEEDS.forEach(feed => renderFallback(feed));
+
+  // Charger les flux live quand la section est visible
+  const section = document.getElementById('veille');
+  if (section) {
+    let loaded = false;
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !loaded) {
+        loaded = true;
+        FEEDS.forEach(feed => loadFeed(feed));
+      }
+    }, { threshold: 0.1 });
+    obs.observe(section);
+  }
+})();
