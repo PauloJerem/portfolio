@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stage HOFICA — Paule-Marie BATSOTSA</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .stage-detail-header { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(37,99,235,0.05)); padding: 40px 20px; margin-bottom: 40px; border-bottom: 1px solid rgba(124,58,237,0.2); }
+    .stage-detail-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .stage-detail-header h1 { font-size: 2rem; color: var(--text-dark); margin-bottom: 10px; }
+    .stage-detail-header .meta { font-size: 0.95rem; color: var(--text-mid); }
+    .stage-detail-nav { display: flex; gap: 10px; align-items: center; margin-bottom: 40px; }
+    .stage-detail-nav a { color: #7c3aed; font-weight: 600; text-decoration: none; }
+    .stage-detail-nav a:hover { text-decoration: underline; }
+    .stage-section { margin-bottom: 40px; }
+    .stage-section h2 { font-size: 1.3rem; color: var(--text-dark); margin-bottom: 16px; border-bottom: 2px solid rgba(124,58,237,0.2); padding-bottom: 12px; }
+    .stage-section p { color: var(--text-mid); line-height: 1.7; margin-bottom: 12px; font-size: 0.95rem; }
+    .stage-section ul { color: var(--text-mid); line-height: 1.8; margin-left: 20px; margin-bottom: 12px; font-size: 0.95rem; }
+    .stage-section li { margin-bottom: 8px; }
+    .tags-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .tag-item { padding: 6px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; background: rgba(124,58,237,0.1); color: #6d28d9; border: 1px solid rgba(124,58,237,0.2); }
+    footer { text-align: center; padding: 20px; margin-top: 60px; border-top: 1px solid rgba(124,58,237,0.2); color: var(--text-soft); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <!-- NAV RAPIDE -->
+  <nav id="navbar" style="position: relative; z-index: 100;">
+    <a href="index.html" class="nav-logo">Paule<span>-</span>Marie</a>
+    <button class="nav-hamburger" onclick="window.history.back()" aria-label="Retour">
+      ← Retour
+    </button>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="stage-detail-header">
+    <div class="stage-detail-container">
+      <h1>Groupe HOFICA</h1>
+      <div class="meta">📅 05 janvier — 13 février 2026 · Cholet (49)</div>
+      <div class="meta" style="margin-top: 8px;">Stage professionnel · BTS SIO SISR 2ème année</div>
+    </div>
+  </div>
+
+  <!-- CONTENU -->
+  <div class="stage-detail-container">
+    <div class="stage-detail-nav">
+      <a href="index.html#stage">← Retour aux stages</a>
+    </div>
+
+    <!-- À PROPOS -->
+    <div class="stage-section">
+      <h2>À propos de l'entreprise</h2>
+      <p>Réseau innovant de 7 sociétés spécialisées dans la <strong>découpe, fabrication et ennoblissement sur matières souples</strong>. 100% Made in France.</p>
+      <p>HOFICA est un groupe regroupant plusieurs entités complémentaires qui interviennent dans la création et la transformation de matériaux souples pour des secteurs aussi variés que l'automobile, l'aéronautique, le médical et l'industrie textile.</p>
+    </div>
+
+    <!-- MISSIONS -->
+    <div class="stage-section">
+      <h2>Missions et responsabilités</h2>
+      <ul>
+        <li>Gestion et maintenance de l'infrastructure informatique du groupe</li>
+        <li>Administration des serveurs Windows Server et gestion des utilisateurs via Active Directory</li>
+        <li>Configuration et déploiement des mises à jour avec WSUS</li>
+        <li>Gestion de la virtualisation avec Hyper-V</li>
+        <li>Support utilisateurs et assistance informatique</li>
+        <li>Gestion du parc informatique via la solution GLPI</li>
+        <li>Participation aux projets d'infrastructure et d'amélioration IT</li>
+      </ul>
+    </div>
+
+    <!-- COMPÉTENCES -->
+    <div class="stage-section">
+      <h2>Compétences développées</h2>
+      <div class="tags-list">
+        <span class="tag-item">Windows Server</span>
+        <span class="tag-item">Active Directory</span>
+        <span class="tag-item">WSUS</span>
+        <span class="tag-item">Hyper-V</span>
+        <span class="tag-item">GLPI</span>
+        <span class="tag-item">Gestion d'infrastructure</span>
+        <span class="tag-item">Support utilisateurs</span>
+        <span class="tag-item">Administration système</span>
+      </div>
+    </div>
+
+    <!-- APPRENTISSAGES -->
+    <div class="stage-section">
+      <h2>Points clés d'apprentissage</h2>
+      <ul>
+        <li>Compréhension approfondie de l'architecture Active Directory et de la gestion des domaines</li>
+        <li>Pratique de la virtualisation serveur et de l'optimisation des ressources</li>
+        <li>Déploiement automatisé des mises à jour système (WSUS)</li>
+        <li>Gestion complète du parc informatique et de l'inventaire</li>
+        <li>Interaction directe avec les utilisateurs et résolution de problèmes techniques</li>
+        <li>Intégration en environnement professionnel multiniveaux</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 Paule-Marie BATSOTSA — Portfolio · <a href="index.html" style="color: #7c3aed; text-decoration: none;">Retour au portfolio</a>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
